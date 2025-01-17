@@ -80,6 +80,32 @@ void freeList(Node **head){
     *head=NULL;
 }
 
+void insertAtGivenPosition(Node** head,int pos,int data){
+    if(pos<=0){
+        printf("Invalid Position\n");
+        return;
+    }
+    Node *newNode = createNode(data);
+    if(pos==1){
+        newNode->next = *head;
+        *head = newNode;
+        return;
+    }
+    Node* curr = *head;
+    int i=0;
+    while(curr!=NULL && i<pos-1){
+        curr=curr->next;
+        i++;
+    }
+    if(curr==NULL){
+        printf("Invalid Position");
+        free(newNode);
+        return;
+    }
+    newNode->next=curr->next;
+    curr->next=newNode;
+}
+
 int main() {
     Node* head = NULL;
 
@@ -94,11 +120,15 @@ int main() {
     printList(&head);
 
     deleteNode(&head, 20);
-    printf("Linked list after deleting 20: ");
+    printf("Linked list after deleting: ");
     printList(&head);
 
-    freeList(&head);
-    printf("Linked list after freeing all nodes: ");
+    // freeList(&head);
+    // printf("Linked list after freeing all nodes: ");
+    // printList(&head);
+
+    printf("Linked List after inserting 15 at position 2: ");
+    insertAtGivenPosition(&head,2,15);
     printList(&head);
 
     return 0;
